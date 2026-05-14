@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <title>Register HTML</title>
+</head>
+<body>
+    <h2>Halaman Register (Versi HTML)</h2>
+    <input type="text" id="regUser" placeholder="Buat Username"><br><br>
+    <input type="password" id="regPass" placeholder="Buat Password"><br><br>
+    <button onclick="prosesRegister()">Daftar</button>
+    <p>Sudah punya akun? <a href="login.html">Login di sini</a></p>
+
+    <script>
+        function prosesRegister() {
+            // Ambil data dari inputan
+            const user = document.getElementById('regUser').value;
+            const pass = document.getElementById('regPass').value;
+            
+            // Simpan ke memori Browser (LocalStorage)
+            localStorage.setItem('dataUsername', user);
+            localStorage.setItem('dataPassword', pass);
+            
+            alert('Registrasi Berhasil! Silakan Login.');
+            window.location.href = 'login.html'; // Pindah ke halaman login
+        }
+    </script>
+</body>
+</html>

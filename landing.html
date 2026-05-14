@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <title>Landing Page HTML</title>
+</head>
+<body>
+    <h1 style="color: blue;">Selamat Datang di Landing Page!</h1>
+    <h3 id="pesanSambut"></h3>
+    <p>Ini adalah halaman rahasia setelah berhasil login.</p>
+    <button onclick="prosesLogout()">Logout</button>
+
+    <script>
+        // Cek apakah ada yang sedang login
+        const user = localStorage.getItem('dataUsername');
+        
+        if(!user) {
+            // Jika tidak ada data username, lempar kembali ke login
+            alert('Anda harus login terlebih dahulu!');
+            window.location.href = 'login.html';
+        } else {
+            // Tampilkan nama user
+            document.getElementById('pesanSambut').innerText = "Halo, " + user + "!";
+        }
+
+        function prosesLogout() {
+            alert('Anda telah keluar.');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

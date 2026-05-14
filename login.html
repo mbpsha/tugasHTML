@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <title>Login HTML</title>
+</head>
+<body>
+    <h2>Halaman Login</h2>
+    <input type="text" id="logUser" placeholder="Masukkan Username"><br><br>
+    <input type="password" id="logPass" placeholder="Masukkan Password"><br><br>
+    <button onclick="prosesLogin()">Masuk</button>
+
+    <script>
+        function prosesLogin() {
+            const user = document.getElementById('logUser').value;
+            const pass = document.getElementById('logPass').value;
+            
+            // Ambil data yang tersimpan dari LocalStorage saat register
+            const savedUser = localStorage.getItem('dataUsername');
+            const savedPass = localStorage.getItem('dataPassword');
+
+            // Cek apakah cocok
+            if(user === savedUser && pass === savedPass) {
+                alert('Login Berhasil!');
+                window.location.href = 'landing.html'; // Pindah ke landing page
+            } else {
+                alert('Username atau Password salah!');
+            }
+        }
+    </script>
+</body>
+</html>
