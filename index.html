@@ -1,28 +1,294 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <title>Register HTML</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cyan: #00f5ff;
+            --magenta: #ff00cc;
+            --lime: #aaff00;
+            --yellow: #ffe600;
+            --bg: #0f080f;
+            --surface: rgba(255,0,204,0.04);
+            --border: rgba(255,0,204,0.2);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,0,204,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,0,204,0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+        }
+
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.15;
+            z-index: 0;
+            animation: blobMove 9s ease-in-out infinite alternate;
+        }
+        .blob-1 { width: 450px; height: 450px; background: var(--magenta); top: -120px; right: -100px; }
+        .blob-2 { width: 300px; height: 300px; background: var(--yellow); bottom: -60px; left: -60px; animation-delay: -3s; }
+        .blob-3 { width: 200px; height: 200px; background: var(--cyan); top: 40%; left: 10%; animation-delay: -5s; }
+
+        @keyframes blobMove {
+            from { transform: translate(0,0) scale(1); }
+            to   { transform: translate(-40px, 30px) scale(1.12); }
+        }
+
+        .card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 420px;
+            padding: 48px 40px;
+            background: var(--surface);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            box-shadow:
+                0 0 0 1px rgba(255,0,204,0.05),
+                0 0 50px rgba(255,0,204,0.08),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+            animation: fadeIn 0.6s cubic-bezier(0.22,1,0.36,1) both;
+        }
+
+        .card::before, .card::after {
+            content: '';
+            position: absolute;
+            width: 20px; height: 20px;
+            border-color: var(--magenta);
+            border-style: solid;
+        }
+        .card::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+        .card::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+        /* Extra corner decorations */
+        .card-inner::before, .card-inner::after {
+            content: '';
+            position: absolute;
+            width: 20px; height: 20px;
+            border-color: var(--magenta);
+            border-style: solid;
+        }
+        .card-inner::before { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+        .card-inner::after  { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .header { text-align: center; margin-bottom: 36px; }
+
+        .logo {
+            display: inline-block;
+            font-family: 'Orbitron', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.4em;
+            color: var(--magenta);
+            background: rgba(255,0,204,0.08);
+            border: 1px solid rgba(255,0,204,0.25);
+            padding: 6px 16px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--magenta);
+        }
+
+        h2 {
+            font-family: 'Orbitron', monospace;
+            font-size: 28px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+        }
+        h2 span {
+            color: var(--magenta);
+            text-shadow: 0 0 20px var(--magenta);
+        }
+
+        .sub {
+            font-size: 13px;
+            color: rgba(255,255,255,0.35);
+            margin-top: 8px;
+            letter-spacing: 0.05em;
+        }
+
+        /* Steps indicator */
+        .steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 28px;
+        }
+        .step {
+            width: 28px; height: 4px;
+            border-radius: 2px;
+            background: rgba(255,0,204,0.2);
+        }
+        .step.active {
+            background: var(--magenta);
+            box-shadow: 0 0 8px var(--magenta);
+        }
+
+        .field { margin-bottom: 18px; }
+        label {
+            display: block;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--magenta);
+            margin-bottom: 8px;
+            opacity: 0.7;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(0,0,0,0.35);
+            border: 1px solid rgba(255,0,204,0.18);
+            border-radius: 3px;
+            padding: 13px 16px;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 15px;
+            color: #fff;
+            outline: none;
+            transition: all 0.2s;
+        }
+        input::placeholder { color: rgba(255,255,255,0.2); }
+        input:focus {
+            border-color: var(--magenta);
+            box-shadow: 0 0 0 3px rgba(255,0,204,0.1), 0 0 15px rgba(255,0,204,0.08);
+            background: rgba(255,0,204,0.04);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 3px;
+            font-family: 'Orbitron', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s;
+            background: linear-gradient(135deg, var(--magenta), #cc0099);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255,0,204,0.3);
+        }
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.4s;
+        }
+        .btn:hover::before { transform: translateX(100%); }
+        .btn:hover {
+            box-shadow: 0 0 35px rgba(255,0,204,0.5);
+            transform: translateY(-1px);
+        }
+        .btn:active { transform: translateY(0); }
+
+        .footer {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.3);
+        }
+        .footer a {
+            color: var(--cyan);
+            text-decoration: none;
+            font-weight: 500;
+            text-shadow: 0 0 10px var(--cyan);
+            transition: opacity 0.2s;
+        }
+        .footer a:hover { opacity: 0.8; }
+
+        .scanline {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
-    <h2>Halaman Register (Versi HTML)</h2>
-    <input type="text" id="regUser" placeholder="Buat Username"><br><br>
-    <input type="password" id="regPass" placeholder="Buat Password"><br><br>
-    <button onclick="prosesRegister()">Daftar</button>
-    <p>Sudah punya akun? <a href="login.html">Login di sini</a></p>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="scanline"></div>
+
+    <div class="card">
+        <div class="card-inner">
+        <div class="header">
+            <div class="logo">✦ DAFTAR AKUN ✦</div>
+            <h2>BUAT<br><span>AKUN BARU</span></h2>
+            <p class="sub">Isi data untuk bergabung ke sistem</p>
+        </div>
+
+        <div class="steps">
+            <div class="step active"></div>
+            <div class="step active"></div>
+            <div class="step"></div>
+        </div>
+
+        <div class="field">
+            <label>▸ Buat Username</label>
+            <input type="text" id="regUser" placeholder="Pilih username unik">
+        </div>
+        <div class="field">
+            <label>▸ Buat Password</label>
+            <input type="password" id="regPass" placeholder="Buat password kuat">
+        </div>
+        <button class="btn" onclick="prosesRegister()">★ DAFTAR SEKARANG</button>
+
+        <div class="footer">
+            Sudah punya akun? <a href="login.html">← Login di sini</a>
+        </div>
+        </div>
+    </div>
 
     <script>
         function prosesRegister() {
-            // Ambil data dari inputan
             const user = document.getElementById('regUser').value;
             const pass = document.getElementById('regPass').value;
-            
-            // Simpan ke memori Browser (LocalStorage)
+            if (!user || !pass) { alert('Lengkapi semua field!'); return; }
             localStorage.setItem('dataUsername', user);
             localStorage.setItem('dataPassword', pass);
-            
             alert('Registrasi Berhasil! Silakan Login.');
-            window.location.href = 'login.html'; // Pindah ke halaman login
+            window.location.href = 'login.html';
         }
+        document.addEventListener('keydown', e => { if (e.key === 'Enter') prosesRegister(); });
     </script>
 </body>
 </html>
